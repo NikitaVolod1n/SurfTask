@@ -1,0 +1,58 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="154dp"
+    android:layout_height="310dp">
+
+
+    <ImageView
+        android:id="@+id/bookPoster"
+        android:layout_width="154dp"
+        android:layout_height="230dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/rounded_corners"
+        android:clipToOutline="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/favoriteIcon"
+        android:layout_width="24dp"
+        android:layout_height="23.95dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="9dp"
+        android:background="@drawable/circle_bg"
+        android:padding="4dp"
+        android:src="@drawable/favorite_ico"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/bookAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/DarkGray"
+        android:textSize="14dp"
+        android:fontFamily="@font/roboto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bookPoster" />
+
+    <TextView
+        android:id="@+id/bookTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bookAuthor"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/bookAuthor" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
