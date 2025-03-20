@@ -143,6 +143,7 @@ open class SearchFragment : Fragment() {
             try {
                 val response = restBooksAPI.getBookByName(query)
                 val books = response.items
+                binding.searchPrompt.visibility = View.GONE
                 binding.errorTextView.visibility = View.GONE
                 binding.reloadButton.visibility = View.GONE
                 adapter.updateBooks(books)
