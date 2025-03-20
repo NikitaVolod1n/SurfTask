@@ -1,12 +1,8 @@
 package com.example.surftask.ui
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.surftask.Fragments.DetailedActivity

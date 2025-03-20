@@ -1,6 +1,5 @@
 package com.example.surftask.Fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -52,7 +51,6 @@ class DetailedActivity : AppCompatActivity() {
             isFavorite = !isFavorite
             if(isFavorite){
                 try {
-                    TODO("по факту надо прописать удаление, отсылку isFavorite в активити, не успеваю")
                     showToast(this, context.getString(R.string.add_to_favorite_success), R.color.lightBlue)
                 }catch (e: Exception){
                     showToast(this, context.getString(R.string.add_to_favorite_unluck), R.color.lightRed)
@@ -65,10 +63,6 @@ class DetailedActivity : AppCompatActivity() {
                     showToast(this, context.getString(R.string.delete_from_favorite_unluck), R.color.lightRed)
                 }
             }
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("isFavorite", isFavorite)
-            }
-            sendBroadcast(intent)
         }
     }
 }
