@@ -1,20 +1,21 @@
 package com.example.surftask.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.surftask.Fragments.DetailedActivity
 import com.example.surftask.Fragments.favorites
 import com.example.surftask.R
 import com.example.surftask.Retrofit.BooksResponse
 import com.example.surftask.databinding.BookItemBinding
 
-class RecyclerAdapter(
+class SearchRecycler(
     private var books: List<BooksResponse.Item>?,
     private val onFavoriteClick: (List<BooksResponse.Item>?, Int) -> Unit
-): RecyclerView.Adapter<RecyclerAdapter.BooksViewHolder>() {
+): RecyclerView.Adapter<SearchRecycler.BooksViewHolder>() {
 
     class BooksViewHolder(val binding: BookItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -31,7 +32,7 @@ class RecyclerAdapter(
     override fun onBindViewHolder(holder: BooksViewHolder, position: Int) {
         val book = books?.get(position)
 
-        val isFavorite = if(favorites.any { it?.id == book?.id }) true else false
+        var isFavorite = if(favorites.any { it?.id == book?.id }) true else false
         holder.binding.bookTitle.text = book?.volumeInfo?.title
         holder.binding.bookAuthor.text = book?.volumeInfo?.authors?.joinToString()
         book?.volumeInfo?.isFavorite = isFavorite
@@ -45,24 +46,26 @@ class RecyclerAdapter(
             holder.binding.favoriteIcon.setImageResource(R.drawable.favorite_ico)
         }
 
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailedActivity::class.java).apply {
+                putExtra("title",book?.volumeInfo?.title)
+                putExtra("author",book?.volumeInfo?.authors?.joinToString(", "))
+                putExtra("description",book?.volumeInfo?.description)
+                putExtra("date",book?.volumeInfo?.date)
+                putExtra("image", book?.volumeInfo?.imageLinks?.thumbnail)
+                putExtra("isFavorite", book?.volumeInfo?.isFavorite)
+            }
+            context.startActivity(intent)
+            notifyDataSetChanged()
+        }
+
         holder.binding.favoriteIcon.setOnClickListener {
             val context = holder.itemView.context
             val heartIcon = holder.binding.favoriteIcon
-            val isFavorite = books?.get(position)?.volumeInfo?.isFavorite ?: false
 
-            val shrinkAnimation = AnimationUtils.loadAnimation(context, R.anim.heart_to_small)
-            heartIcon.startAnimation(shrinkAnimation)
-
-            if (isFavorite) {
-                heartIcon.setImageResource(R.drawable.favorite_ico)
-            } else {
-                heartIcon.setImageResource(R.drawable.favorite_fill_ico)
-            }
-
-            heartIcon.postDelayed({
-                val growAnimation = AnimationUtils.loadAnimation(context, R.anim.heart_to_big)
-                heartIcon.startAnimation(growAnimation)
-            }, 150)
+            animate(context, R.drawable.favorite_ico, R.drawable.favorite_fill_ico, isFavorite, heartIcon)
 
             onFavoriteClick(books, position)
             notifyItemChanged(position)

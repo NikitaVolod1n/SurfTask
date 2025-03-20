@@ -19,6 +19,8 @@ data class BooksResponse(
         @SerializedName("title") val title: String?,
         @SerializedName("authors") val authors: List<String>?,
         @SerializedName("imageLinks") val imageLinks: ImageLinks?,
+        @SerializedName("description") val description: String?,
+        @SerializedName("publishedDate") val date: String?,
         var isFavorite: Boolean
     )
 

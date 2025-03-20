@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -26,16 +24,16 @@ import com.example.surftask.Retrofit.BooksResponse
 import com.example.surftask.Retrofit.restBooksAPI
 import com.example.surftask.databinding.FragmentSearchBinding
 import com.example.surftask.ui.GridSpacingItemDecoration
-import com.example.surftask.ui.RecyclerAdapter
+import com.example.surftask.ui.SearchRecycler
 import com.example.surftask.ui.showToast
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SearchFragment : Fragment() {
+open class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: RecyclerAdapter
+    private lateinit var adapter: SearchRecycler
     private val handler = Handler(Looper.getMainLooper())
     private var searchRunnable: Runnable? = null
     private var searchJob: Job? = null
@@ -43,7 +41,7 @@ class SearchFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        adapter = RecyclerAdapter(emptyList()){ books, position ->
+        adapter = SearchRecycler(emptyList()){ books, position ->
             toggleFavorite(books, position)
         }
         binding.rvBooks.adapter = adapter
@@ -166,7 +164,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun toggleFavorite(books: List<BooksResponse.Item>?, position: Int) {
+    fun toggleFavorite(books: List<BooksResponse.Item>?, position: Int) {
         books?.get(position)?.volumeInfo?.isFavorite = !books[position].volumeInfo.isFavorite
         if (books?.get(position)?.volumeInfo?.isFavorite == true) {
             try {
@@ -177,7 +175,9 @@ class SearchFragment : Fragment() {
             }
         } else if (books?.get(position)?.volumeInfo?.isFavorite == false) {
             try {
+                books[position].volumeInfo.isFavorite = true
                 favorites.remove(books[position])
+                books[position].volumeInfo.isFavorite = false
                 context?.let { showToast(requireContext(), it.getString(R.string.delete_from_favorite_success), R.color.lightBlue) }
             }catch (e: Exception) {
                 context?.let { showToast(requireContext(), it.getString(R.string.delete_from_favorite_unluck), R.color.lightRed) }

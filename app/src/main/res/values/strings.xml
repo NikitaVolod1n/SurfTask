@@ -7,6 +7,7 @@
     <string name="Empty_text">По вашему запросу ничего не найдено</string>
     <string name="Try_again">Попробовать еще</string>
     <string name="favorites">Избранное</string>
+    <string name="description">Описание</string>
     <string name="add_to_favorite_success">Книга успешно добавлена в избранное</string>
     <string name="add_to_favorite_unluck">Ошибка добавления в избранное</string>
     <string name="delete_from_favorite_success">Книга успешно удалена из избранного</string>
